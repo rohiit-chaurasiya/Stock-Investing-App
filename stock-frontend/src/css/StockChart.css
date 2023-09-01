@@ -1,0 +1,28 @@
+.stock-price{
+    position: relative;
+
+}
+
+.stock-price .name-right{
+    display: flex;
+}
+
+@media only screen and (max-width: 450px){
+    .stock-price{
+        /* position: absolute; */
+        /* display: block; */
+        margin-top: -108px;
+        align-items: end;
+        margin-left: auto;
+        text-align: right;
+        
+        justify-content: right;
+        /* margin-left: 210px; */
+
+    }
+    .stock-price .name-right{
+        display: inline;
+    }
+
+}
+

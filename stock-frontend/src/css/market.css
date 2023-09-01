@@ -1,0 +1,38 @@
+
+.overview-market{
+    display: grid;
+    gap: 10px;
+    grid-auto-flow: column;
+    grid-auto-columns: 25%;
+    overflow: hidden;
+    overflow-x: scroll;
+    overscroll-behavior-inline: contain ;
+    -ms-overflow-style: none;
+	scrollbar-width: none;
+    
+}
+
+.overview-market::-webkit-scrollbar{
+    display: none;
+}
+
+.overview-element{
+    display: grid;
+    grid-template-rows: min-content ;
+    gap: 5px;
+    padding: 20px;
+    background: slategray;
+    border-radius: 5px;
+
+}
+.css-t89xny-MuiDataGrid-columnHeaderTitle{
+    font-weight: bold !important;
+    color: #69748B;
+}
+
+.custom-header {
+    
+    font-weight: bold !important; /* Bold font */
+    color: black; /* Change color to red */
+    font-size: 15px;
+  }
