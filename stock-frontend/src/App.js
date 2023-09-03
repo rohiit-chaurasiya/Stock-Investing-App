@@ -8,6 +8,7 @@ import Portfolio from './components/Portfolio';
 import Settings from './components/Settings';
 import Logout from './components/Logout';
 import Navbar from './components/Navbar';
+import StockDetails from './components/StockDetails';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path='/Portfolio' element={ <Portfolio navVisible={navVisible}/> } />
         <Route path='/Settings' element={ <Settings navVisible={navVisible}/> } />
         <Route path='/Sign-out' element={ <Logout navVisible={navVisible}/> } />
+        <Route path='/stock' element={<StockDetails navVisible={navVisible} />}/>
       </Routes>
 
 		</div>

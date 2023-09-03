@@ -8,6 +8,14 @@ import { DataGrid } from '@mui/x-data-grid';
 
 
 export default function Market({navVisible}) {
+
+  const handleRowClick = (params) => {
+    // Assuming you have defined a route for stock details using React Router
+    // Replace '/stock-details' with the actual route path
+    // You can pass data related to the clicked row using state or URL parameters
+    window.location.href = `/stock?id=${params.id}`;
+  };
+  
     
   const data = [
   {name: 'Page A', uv: 280, pv: 2400, amt: 2400},
@@ -16,7 +24,7 @@ export default function Market({navVisible}) {
   {name: 'Page A', uv: 550, pv: 2400, amt: 2400},
   {name: 'Page A', uv: 450, pv: 2400, amt: 2400},
   {name: 'Page A', uv: 700, pv: 2400, amt: 2400},
-  {name: 'Page A', uv: 200, pv: 2400, amt: 2400},
+  {name: 'Page A', uv: 200, pv: 2400, amt: 2400}, 
   {name: 'Page A', uv: 500, pv: 2400, amt: 2400},
   {name: 'Page A', uv: 600, pv: 2400, amt: 2400},
   {name: 'Page A', uv: 250, pv: 2400, amt: 2400},
@@ -55,7 +63,7 @@ export default function Market({navVisible}) {
     </div>
     
   );
-
+ 
 
   const stockName1 = () => (
     <div>
@@ -239,6 +247,8 @@ export default function Market({navVisible}) {
               
                 style={{fontWeight:'600', }}
                 getRowHeight={(params)=>85}
+                onRowClick={handleRowClick}
+
                 
               />
             </div>
