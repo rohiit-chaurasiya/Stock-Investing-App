@@ -31,6 +31,6 @@ npm install
 
 Start the development server- for stock-frontend
 ```sh
-npm start
+npm start 
 ```
 
