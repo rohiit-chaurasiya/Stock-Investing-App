@@ -1,8 +1,9 @@
 # Stock-Investing-WebApp
 
 ### Welcome to the Stock Investing WebApp! This web application is designed to provide you with a convenient and efficient way to track and manage your stock investments. 
+![Screenshot 2024-01-27 021928](https://github.com/RohitAayushmaan/Stock-Investing-App/assets/52812829/d1b5faff-8201-4117-a882-82fab3629092)
 
-![Screenshot 2023-08-28 233037](https://github.com/RohitAayushmaan/Stock-Investing-App/assets/52812829/4d9b7ffe-f2db-46ea-8d88-820207d028e8)
+
 
 
 
