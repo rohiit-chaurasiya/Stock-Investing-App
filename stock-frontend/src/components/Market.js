@@ -173,12 +173,16 @@ export default function Market({navVisible}) {
 
 
   const [records,setRecords]=useState(rows);
-  const StockCard = ({ companyName, value, percentageChange, color }) => (
+
+  const StockCard = ({companyLogo=null, companyName, value, percentageChange, color }) => (
     <div className=" StockCard col-sm-6 col-md-4 col-lg-3">
-      <h6 style={{ padding: '15px 8px 5px 10px', color: '#69748B', fontSize:'14px' }}>{companyName}</h6>
-      <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h6 style={{ color: 'black', fontWeight: '700' }}>{value}</h6>
-        <span style={{background: color, fontSize: '12px', borderRadius: '10px', padding: '1px 8px' }}>
+      {companyLogo !== null && (
+      <img src={require(`../image/trendingStocksLogo/${companyLogo}.png`)} alt={companyLogo} style={{ height: '40px', width: '40px', border:'solid 1px #E9E9EB', borderRadius:'5px', marginTop:'10px'}} />
+    )}
+      <h6 style={{ padding: '15px 8px 5px 1px', color: '#69748B', fontSize:'14px' }}>{companyName}</h6>
+      <div style={{ display: 'flex', padding: '5px', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h6 style={{ color: 'black', fontWeight: '600' }}>{value}</h6>
+        <span style={{background: color, fontSize: '12px', borderRadius: '10px', padding: '1px 10px', marginBottom:'10px'}}>
           {percentageChange}
         </span>
       </div>
@@ -186,11 +190,20 @@ export default function Market({navVisible}) {
   );
 
   const stockData = [
-    { companyName: 'AMAZON', value: '$25,585.56', percentageChange: '+4.33%', color: '#DCFCE7' },
-    { companyName: 'META', value: '$6,648', percentageChange: '-4.33%', color: '#FEE2E2' },
-    { companyName: 'MICROSOFT', value: '$2,832.02', percentageChange: '+12.32%', color: '#DCFCE7' },
-    { companyName: 'TESLA', value: '$9,981.44', percentageChange: '-6.28%', color: '#FEE2E2' },
+    {companyName: 'NIFTY 50', value: '21352.60', percentageChange: '-101.35(0.47%)', color: '#FEE2E2' },
+    {companyName: 'SENSEX', value: '70700.67', percentageChange: '-359.64(0.51%)', color: '#FEE2E2' },
+    {companyName: 'NIFTY BANK', value: '44866.64', percentageChange: '-216.25(0.48%)', color: '#FEE2E2' },
+    {companyName: 'NIFTY NEXT 50', value: '54291.75', percentageChange: '+83.45(0.15%)', color: '#DCFCE7' },
   ];
+
+  const trendingStockData = [
+    {companyLogo: 'GSTK500183', companyName: 'HFCL', value: '₹105.75', percentageChange: '+0.10(0.09%)', color: '#DCFCE7' },
+    {companyLogo: "GSTK534309", companyName: 'NBCC (India)', value: '₹114.70', percentageChange: '+9.45(8.91%)', color: '#DCFCE7' },
+    {companyLogo: 'GSTK539807', companyName: 'Infibeam Avenues', value: '₹29.10', percentageChange: '+1.90(6.48%)', color: '#DCFCE7' },
+    {companyLogo: 'GSTK543257', companyName: 'IRFC', value: '₹173.85', percentageChange: '+1.95(1.53%)', color: '#DCFCE7' },
+  ];
+
+  
 
 
   function handleSearch(event){
@@ -207,14 +220,28 @@ export default function Market({navVisible}) {
     <div className='market' >
       <div className={!navVisible ? "page" : "page page-with-navbar"}>
         <div className='container mt-5'>
-            <h3 className='mt-5' style={{fontWeight:'600',color:'black'}}>Markets</h3>
-            <p  style={{marginTop:'20px',color:'#69748B', fontSize:'14px',fontWeight:'600'}}>Quick Overview of the Market</p>
+          <h3 className='mt-5' style={{fontWeight:'600',color:'#00B386'}}>Stocks</h3>
 
-            <div className="row treandingCard">
-              {stockData.map((stock, index) => (
-                <StockCard key={index} {...stock} />
-              ))}
-            </div>
+          <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <p style={{marginTop:'30px',color:'black', fontSize:'20px',fontWeight:'600', marginBottom:'0px'}}>Index</p>
+            <p style={{marginTop:'30px',color:'#00B386', fontSize:'15px',fontWeight:'600', marginBottom:'0px', marginRight:'40px'}}>All indices</p>
+          </div>
+          <div className="row treandingCard">
+            {stockData.map((stock, index) => (
+              <StockCard key={index} {...stock} />
+            ))}
+          </div>
+
+
+          <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <p style={{marginTop:'30px',color:'black', fontSize:'20px',fontWeight:'600', marginBottom:'0px'}}>Trending Stocks</p>
+            <p style={{marginTop:'30px',color:'#00B386', fontSize:'15px',fontWeight:'600', marginBottom:'0px', marginRight:'40px'}}>See all</p>
+          </div>
+          <div className="row treandingCard">
+            {trendingStockData.map((stock, index) => (
+              <StockCard key={index} {...stock} />
+            ))}
+          </div>
 
 
           <div className='mb-5'> 

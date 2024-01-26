@@ -8,8 +8,16 @@ import {
 	FaRegNewspaper,
 	FaShoppingBag
 } from 'react-icons/fa';
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { PiWalletLight } from "react-icons/pi";
+import { IoIosArrowDown } from "react-icons/io";
+
+
 import { NavLink } from "react-router-dom";
 import "../css/navbar.css";
+
+
+
 
 const ICON_SIZE = 20;
 
@@ -20,14 +28,18 @@ function Navbar({visible, show}) {
 			<div className="mobile-nav">
 				
 				<button style={{color:'black'}}	className="mobile-nav-btn" onClick={() => show(!visible)}>
-					<FaBars size={24} />
+					<FaBars size={24} /><i class="fa-thin fa-bell"></i>
 				</button>
 
-				<img src={require("../image/logo2.png")} alt='logo' style={{height:'70px',width:'170px'}}></img>
+				<img src={require("../image/logo2.png")} alt='logo' style={{height:'60px',width:'145px',}}></img>
 				
 
 				<div className='profile_logo'>
-					<img src={require("../image/ff.png")} style={{height:'70px',width:'90px'}} alt='profile'></img>
+
+				<i><PiWalletLight size={24}/></i>
+				<i><IoMdNotificationsOutline size={24}/></i>
+					<img src={require("../image/ff.png")} style={{height:'60px',width:'80px'}} alt='profile'></img>
+					<IoIosArrowDown size={15} style={{marginLeft:'-15px'}}/>
 				</div>
 
 

@@ -77,8 +77,15 @@ nav{
 .profile_logo{
 	display:'flex';
 	margin-left: auto;
-	margin-right: 20px;
+	margin-right: 50px;
 	margin-top: 6px;
+}
+
+.profile_logo i {
+	margin-right: 30px;
+}
+.profile_logo i {
+	margin-right: 30px;
 }
 
 .mobile-nav{
@@ -95,6 +102,7 @@ nav{
 
 .mobile-nav img{
 	padding: 10px 20px;
+	margin-left: -10px;
 }
 
 .mobile-nav-btn{
@@ -109,6 +117,10 @@ nav{
 	nav{
 		width: 40%;
 		padding: 10px;
+	}
+
+	.mobile-nav img{
+		margin-left: -20px;
 	}
 }
 
@@ -130,7 +142,14 @@ nav{
 
 	.profile_logo{
 		margin-left: auto;
-		margin-right: 0px;
+		margin-right: 15px;
 		margin-top: 6px;
 	}
+
+	.profile_logo i{
+		margin-right: 15px;
+	}
+	
+	
+
 }
