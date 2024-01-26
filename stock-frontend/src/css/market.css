@@ -35,4 +35,39 @@
     font-weight: bold !important; /* Bold font */
     color: black; /* Change color to red */
     font-size: 15px;
-  }
+}
+
+
+@media only screen and (max-width: 768px){
+	.treandingCard {
+		display: grid;
+	}
+	
+}
+
+.StockCard {
+  border-radius: 5px;
+  border: 1px solid #E2E8F0;
+  margin: 10px;
+  width: 22.3%;
+
+}
+
+/* Media queries for responsiveness */
+@media only screen and (max-width: 576px){
+	.StockCard {
+		width: 24%;
+	}
+}
+
+@media only screen and (max-width: 768px){
+	.StockCard {
+		width: 70%;
+	}
+}
+
+@media only screen and (max-width: 992px){
+	.StockCard {
+		width: 85%;
+	}
+}

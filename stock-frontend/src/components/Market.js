@@ -8,6 +8,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 
 export default function Market({navVisible}) {
+  const [selectedRow, setSelectedRow] = useState(null);
 
   const handleRowClick = (params) => {
     // Assuming you have defined a route for stock details using React Router
@@ -98,6 +99,8 @@ export default function Market({navVisible}) {
 
   
 
+  
+
   const stockRateRenderer = (params) => {
     const isEvenRow = params.id % 2 === 0;
     return isEvenRow ? stockPrice2() : stockPrice();
@@ -170,6 +173,25 @@ export default function Market({navVisible}) {
 
 
   const [records,setRecords]=useState(rows);
+  const StockCard = ({ companyName, value, percentageChange, color }) => (
+    <div className=" StockCard col-sm-6 col-md-4 col-lg-3">
+      <h6 style={{ padding: '15px 8px 5px 10px', color: '#69748B', fontSize:'14px' }}>{companyName}</h6>
+      <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h6 style={{ color: 'black', fontWeight: '700' }}>{value}</h6>
+        <span style={{background: color, fontSize: '12px', borderRadius: '10px', padding: '1px 8px' }}>
+          {percentageChange}
+        </span>
+      </div>
+    </div>
+  );
+
+  const stockData = [
+    { companyName: 'AMAZON', value: '$25,585.56', percentageChange: '+4.33%', color: '#DCFCE7' },
+    { companyName: 'META', value: '$6,648', percentageChange: '-4.33%', color: '#FEE2E2' },
+    { companyName: 'MICROSOFT', value: '$2,832.02', percentageChange: '+12.32%', color: '#DCFCE7' },
+    { companyName: 'TESLA', value: '$9,981.44', percentageChange: '-6.28%', color: '#FEE2E2' },
+  ];
+
 
   function handleSearch(event){
     const newData=rows.filter(row=>{
@@ -178,55 +200,22 @@ export default function Market({navVisible}) {
     setRecords(newData);
   }
 
+  
+
 
   return (
     <div className='market' >
       <div className={!navVisible ? "page" : "page page-with-navbar"}>
-        <div className='container-fluid  mt-5'>
-          <div>
+        <div className='container mt-5'>
             <h3 className='mt-5' style={{fontWeight:'600',color:'black'}}>Markets</h3>
             <p  style={{marginTop:'20px',color:'#69748B', fontSize:'14px',fontWeight:'600'}}>Quick Overview of the Market</p>
 
-            <div className='container-fluid' style={{gap:'0px', padding:'10px'}}>
-              <div className='row' style={{}}>
-              <div className="col-sm-6 col-md-4 col-lg-3" style={{borderRadius:'5px',border:'1px solid #E2E8F0'}}>
-                <h6 style={{padding:'17px 10px 5px 10px',color:'#69748B'}}>AMAZON</h6>
-                <div style={{display:'flex', padding:'10px',justifyContent:'space-between',alignItems:'center'}}>
-                  <h5 style={{color:'black', fontWeight:'700'}}>$25,585.56</h5>
-                  <span style={{alignItems:'center',background:'#DCFCE7', fontSize:'12px',borderRadius:'10px',padding:'1px 7px'}}> +4.33% </span>
-                </div>                        
-              </div>
-
-              <div className="col-sm-6 col-md-4 col-lg-3" style={{borderRadius:'5px',border:'1px solid #E2E8F0'}}>
-                <h6 style={{padding:'17px 10px 5px 10px',color:'#69748B'}}>META</h6>
-                <div style={{display:'flex', padding:'10px',justifyContent:'space-between',alignItems:'center'}}>
-                  <h5 style={{color:'black', fontWeight:'700'}}>$6,648</h5>
-                  <span style={{alignItems:'center',background:'#FEE2E2', fontSize:'12px',borderRadius:'10px',padding:'1px 7px'}}> -4.33% </span>
-                </div>                        
-              </div>
-
-              <div className="col-sm-6 col-md-4 col-lg-3" style={{borderRadius:'5px',border:'1px solid #E2E8F0'}}>
-                <h6 style={{padding:'17px 10px 5px 10px',color:'#69748B'}}>MICROSOFT</h6>
-                <div style={{display:'flex', padding:'10px',justifyContent:'space-between',alignItems:'center'}}>
-                  <h5 style={{color:'black', fontWeight:'700'}}>$2,832.02</h5>
-                  <span style={{alignItems:'center',background:'#DCFCE7', fontSize:'12px',borderRadius:'10px',padding:'1px 7px'}}> +12.32% </span>
-                </div>
-              </div>
-              
-
-              <div className="col-sm-6 col-md-4 col-lg-3" style={{borderRadius:'5px',border:'1px solid #E2E8F0'}}>
-                <h6 style={{padding:'17px 10px 5px 10px',color:'#69748B'}}>TESLA</h6>
-                <div style={{display:'flex', padding:'10px',justifyContent:'space-between',alignItems:'center'}}>
-                  <h5 style={{color:'black', fontWeight:'700'}}>$9,981.44</h5>
-                  <span style={{alignItems:'center',background:'#FEE2E2', fontSize:'12px',borderRadius:'10px',padding:'1px 7px'}}> -6.28% </span>
-                </div>                        
-              </div>
-              </div>
-
+            <div className="row treandingCard">
+              {stockData.map((stock, index) => (
+                <StockCard key={index} {...stock} />
+              ))}
             </div>
 
-
-          </div>
 
           <div className='mb-5'> 
             <p  style={{marginTop:'35px',color:'#69748B', fontSize:'14px',fontWeight:'600'}}>Stocks Details</p>
@@ -248,6 +237,9 @@ export default function Market({navVisible}) {
                 style={{fontWeight:'600', }}
                 getRowHeight={(params)=>85}
                 onRowClick={handleRowClick}
+                onMouseEnter={(params) => setSelectedRow(params.id)}
+                onMouseLeave={() => setSelectedRow(null)}
+                rowClassName={(params) => (selectedRow === params.id ? 'clickable-row' : '')}
 
                 
               />

@@ -1,6 +1,7 @@
 import React from 'react'
 import { LineChart, Line } from 'recharts';
 import '../css/StockChart.css'
+import '../css/market.css'
 
 
 export default function StockDetails({navVisible}) {
