@@ -45,11 +45,19 @@
 	
 }
 
+.IndexStockCard {
+    border-radius: 5px;
+    border: 1px solid #E2E8F0;
+    margin: 10px;
+    width: 22.3%;
+  
+  }
+
 .StockCard {
   border-radius: 5px;
   border: 1px solid #E2E8F0;
   margin: 10px;
-  width: 22.3%;
+  width: 30.5%;
 
 }
 
@@ -58,16 +66,25 @@
 	.StockCard {
 		width: 24%;
 	}
+    .IndexStockCard {
+		width: 24%;
+	}
 }
 
 @media only screen and (max-width: 768px){
 	.StockCard {
 		width: 70%;
 	}
+    .IndexStockCard {
+		width: 70%;
+	}
 }
 
 @media only screen and (max-width: 992px){
 	.StockCard {
+		width: 85%;
+	}
+    .IndexStockCard {
 		width: 85%;
 	}
 }

@@ -1,3 +1,7 @@
+/* ::-webkit-scrollbar {
+	width: 55px;
+  } */
+
 nav{
 	position:fixed;
 	top:70px;
@@ -138,7 +142,7 @@ nav{
 
 	.nav-btn{
 		display: none;
-	}
+	}	
 
 	.profile_logo{
 		margin-left: auto;

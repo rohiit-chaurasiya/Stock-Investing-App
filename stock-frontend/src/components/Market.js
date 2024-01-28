@@ -1,9 +1,11 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import { useState } from 'react';
 import { LineChart, Line } from 'recharts';
 
 import '../css/market.css'
 import { DataGrid } from '@mui/x-data-grid';
+import Chart from 'chart.js/auto';
+import { generateChartData } from '../data/data.js';
 
 
 
@@ -16,6 +18,13 @@ export default function Market({navVisible}) {
     // You can pass data related to the clicked row using state or URL parameters
     window.location.href = `/stock?id=${params.id}`;
   };
+
+  function handleSearch(event){
+    const newData=rows.filter(row=>{
+      return row.firstName.toLowerCase().includes(event.target.value.toLowerCase())
+    })
+    setRecords(newData);
+  }
   
     
   const data = [
@@ -49,7 +58,6 @@ export default function Market({navVisible}) {
     </LineChart>
   );
 
-
   const stockPrice = () => (
     <div style={{display:'flex',justifyContent:'space-between' , alignItems:'center',gap:'10px'}}>
       <h6  style={{alignItems:'center',marginLeft:'40px', fontWeight:'600' }}>$34,56,450</h6>
@@ -65,7 +73,6 @@ export default function Market({navVisible}) {
     
   );
  
-
   const stockName1 = () => (
     <div>
       <h6 style={{fontWeight:'bold'}}>AMZN</h6>
@@ -97,10 +104,6 @@ export default function Market({navVisible}) {
     </div>
   );
 
-  
-
-  
-
   const stockRateRenderer = (params) => {
     const isEvenRow = params.id % 2 === 0;
     return isEvenRow ? stockPrice2() : stockPrice();
@@ -127,9 +130,6 @@ export default function Market({navVisible}) {
         return null;
     }
   };
-
-
-
 
   const columns = [
     {
@@ -162,7 +162,6 @@ export default function Market({navVisible}) {
     }, 
   ];
 
-  
   const rows = [
     { id: 1, trend: renderLineChart(data), firstName: stockName1(), StockRate: stockPrice() },
     { id: 2, trend: renderLineChart(data), firstName: stockName2(), StockRate: stockPrice2() },
@@ -171,14 +170,37 @@ export default function Market({navVisible}) {
     { id: 5, trend: renderLineChart(data), firstName: stockName5(), StockRate: stockPrice() },
   ];
 
-
   const [records,setRecords]=useState(rows);
+  const StockCard = ({companyLogo, companyName, value, percentageChange, comapnyChart, color}) => (
+    <div className=" StockCard col-sm-6 col-md-4 col-lg-4">
+      <div style={{ display: 'flex', padding: '0px', justifyContent: 'space-between', alignItems: 'center' }}>
+        <img src={require(`../image/trendingStocksLogo/${companyLogo}.png`)} alt={companyLogo} style={{ height: '40px', width: '40px', border:'solid 1px #E9E9EB', borderRadius:'5px', marginTop:'10px'}} />
+        <span style={{background: color, fontSize: '12px', borderRadius: '10px', padding: '1px 10px', marginBottom:'10px'}}>
+          {percentageChange}
+        </span>
+      </div>
+      <h6 style={{ padding: '15px 8px 5px 1px', color: '#69748B', fontSize:'14px' }}>{companyName}</h6>
+      <h6 style={{ color: 'black', fontWeight: '600', marginTop:'-10px'}}>{value}</h6>
+      <canvas ref={comapnyChart} />
 
-  const StockCard = ({companyLogo=null, companyName, value, percentageChange, color }) => (
-    <div className=" StockCard col-sm-6 col-md-4 col-lg-3">
-      {companyLogo !== null && (
-      <img src={require(`../image/trendingStocksLogo/${companyLogo}.png`)} alt={companyLogo} style={{ height: '40px', width: '40px', border:'solid 1px #E9E9EB', borderRadius:'5px', marginTop:'10px'}} />
-    )}
+      <hr style={{margin:'0px', padding:'0px'}}></hr>
+
+      <div style={{display:'flex', justifyContent:'space-around',alignItems:'center', margin:'10px 0px'}}> 
+      <button className='btn btn-light' style={{fontWeight:'600',fontSize:'12px',padding:'0px 2px 0px 2px', margin:'0px', color:'green'}}>NSE</button>
+        <button className='btn btn-light' style={{fontWeight:'600',fontSize:'12px',padding:'0px 2px 0px 2px', margin:'0px'}}>1D</button>
+        <button className='btn btn-light' style={{fontWeight:'600',fontSize:'12px',padding:'0px 2px 0px 2px', margin:'0px'}}>1W</button>
+        <button className='btn btn-light' style={{fontWeight:'600',fontSize:'12px',padding:'0px 2px 0px 2px', margin:'0px'}}>1M</button>
+        <button className='btn btn-light' style={{fontWeight:'600',fontSize:'12px',padding:'0px 2px 0px 2px', margin:'0px'}}>1Y</button>
+        <button className='btn btn-light' style={{fontWeight:'600',fontSize:'12px',padding:'0px 2px 0px 2px', margin:'0px'}}>5Y</button>
+        <button className='btn btn-light' style={{fontWeight:'600',fontSize:'12px',padding:'0px 2px 0px 2px', margin:'0px'}}>ALL</button>
+      </div>
+
+
+    </div>
+  );
+
+  const IndexStockCard = ({companyName, value, percentageChange, color }) => (
+    <div className=" IndexStockCard col-sm-6 col-md-4 col-lg-3">
       <h6 style={{ padding: '15px 8px 5px 1px', color: '#69748B', fontSize:'14px' }}>{companyName}</h6>
       <div style={{ display: 'flex', padding: '5px', justifyContent: 'space-between', alignItems: 'center' }}>
         <h6 style={{ color: 'black', fontWeight: '600' }}>{value}</h6>
@@ -196,22 +218,114 @@ export default function Market({navVisible}) {
     {companyName: 'NIFTY NEXT 50', value: '54291.75', percentageChange: '+83.45(0.15%)', color: '#DCFCE7' },
   ];
 
+  const chartContainer1 = useRef(null);
+  const chartContainer2 = useRef(null);
+  const chartContainer3 = useRef(null);
   const trendingStockData = [
-    {companyLogo: 'GSTK500183', companyName: 'HFCL', value: '₹105.75', percentageChange: '+0.10(0.09%)', color: '#DCFCE7' },
-    {companyLogo: "GSTK534309", companyName: 'NBCC (India)', value: '₹114.70', percentageChange: '+9.45(8.91%)', color: '#DCFCE7' },
-    {companyLogo: 'GSTK539807', companyName: 'Infibeam Avenues', value: '₹29.10', percentageChange: '+1.90(6.48%)', color: '#DCFCE7' },
-    {companyLogo: 'GSTK543257', companyName: 'IRFC', value: '₹173.85', percentageChange: '+1.95(1.53%)', color: '#DCFCE7' },
+    {companyLogo: 'GSTK500183', companyName: 'HFCL', value: '₹105.75', percentageChange: '+0.10(0.09%)', comapnyChart:chartContainer1, color: '#DCFCE7' },
+    {companyLogo: "GSTK534309", companyName: 'NBCC (India)', value: '₹114.70', percentageChange: '+9.45(8.91%)',comapnyChart:chartContainer2, color: '#DCFCE7' },
+    {companyLogo: 'GSTK539807', companyName: 'Infibeam Avenues', value: '₹29.10', percentageChange: '+1.90(6.48%)',comapnyChart:chartContainer3, color: '#DCFCE7' },
+    // {companyLogo: 'GSTK543257', companyName: 'IRFC', value: '₹173.85', percentageChange: '+1.95(1.53%)', color: '#DCFCE7' },
   ];
 
   
+  useEffect(() => {
+    const chartsData = [generateChartData(), generateChartData(), generateChartData()]; // Example array of chart data
+
+    const chartContainers = [chartContainer1, chartContainer2, chartContainer3];
+
+    // Destroy previous charts before creating new ones
+    chartContainers.forEach(chartRef => {
+        const ctx = chartRef.current.getContext('2d');
+        const chart = Chart.getChart(ctx);
+        if (chart) {
+            chart.destroy();
+        }
+    });
+
+    chartsData.forEach((chartData, index) => {
+        const chartContainer = chartContainers[index];
+
+        if (chartContainer.current) {
+            const ctx = chartContainer.current.getContext('2d');
+            const { data } = chartData;
+
+            const totalDuration = 500;
+            const delayBetweenPoints = totalDuration / data.length;
+
+            const previousY = (ctx) =>
+                ctx.index === 0
+                ? ctx.chart.scales.y.getPixelForValue(100)
+                : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+
+            const animation = {
+                x: {
+                    type: 'number',
+                    easing: 'linear',
+                    duration: delayBetweenPoints,
+                    from: NaN,
+                    delay(ctx) {
+                        if (ctx.type !== 'data' || ctx.xStarted) {
+                            return 0;
+                        }
+                        ctx.xStarted = true;
+                        return ctx.index * delayBetweenPoints;
+                    },
+                },
+                y: {
+                    type: 'number',
+                    easing: 'linear',
+                    duration: delayBetweenPoints,
+                    from: previousY,
+                    delay(ctx) {
+                        if (ctx.type !== 'data' || ctx.yStarted) {
+                            return 0;
+                        }
+                        ctx.yStarted = true;
+                        return ctx.index * delayBetweenPoints;
+                    },
+                },
+            };
+
+            const config = {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        borderColor: '#00B386',
+                        borderWidth: 1,
+                        radius: 0,
+                        data: data,
+                    } ],
+                },
+                options: {
+                    animation,
+                    interaction: {
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: false,
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            display: false,
+                            
+                        },
+                        y:
+                        {
+                            display: false,
+                        },
+
+                    },
+                },
+            };
+
+            new Chart(ctx, config);
+        }
+      });
+  }, []);
 
 
-  function handleSearch(event){
-    const newData=rows.filter(row=>{
-      return row.firstName.toLowerCase().includes(event.target.value.toLowerCase())
-    })
-    setRecords(newData);
-  }
 
   
 
@@ -223,24 +337,26 @@ export default function Market({navVisible}) {
           <h3 className='mt-5' style={{fontWeight:'600',color:'#00B386'}}>Stocks</h3>
 
           <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-            <p style={{marginTop:'30px',color:'black', fontSize:'20px',fontWeight:'600', marginBottom:'0px'}}>Index</p>
+            <p style={{marginTop:'15px',color:'black', fontSize:'18px',fontWeight:'600', marginBottom:'0px'}}>Index</p>
             <p style={{marginTop:'30px',color:'#00B386', fontSize:'15px',fontWeight:'600', marginBottom:'0px', marginRight:'40px'}}>All indices</p>
           </div>
           <div className="row treandingCard">
             {stockData.map((stock, index) => (
-              <StockCard key={index} {...stock} />
+              <IndexStockCard key={index} {...stock} />
             ))}
           </div>
 
 
+
           <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-            <p style={{marginTop:'30px',color:'black', fontSize:'20px',fontWeight:'600', marginBottom:'0px'}}>Trending Stocks</p>
+            <p style={{marginTop:'15px',color:'black', fontSize:'18px',fontWeight:'600', marginBottom:'0px'}}>Trending Stocks</p>
             <p style={{marginTop:'30px',color:'#00B386', fontSize:'15px',fontWeight:'600', marginBottom:'0px', marginRight:'40px'}}>See all</p>
           </div>
           <div className="row treandingCard">
             {trendingStockData.map((stock, index) => (
               <StockCard key={index} {...stock} />
             ))}
+            
           </div>
 
 
@@ -274,6 +390,8 @@ export default function Market({navVisible}) {
 
 
           </div>
+
+          
 
 
 

@@ -8,12 +8,16 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* body{
+body{
     min-height: 100vh;
     background: #e3f2fd;
-} */
+}
 
-/* nav{
+::-webkit-scrollbar {
+    width: 7px;
+  }
+
+nav{
     position: fixed;
     top:0;
     left:0;
@@ -131,5 +135,5 @@ nav.open ~ .sidebar{
     opacity: 1;
     left: 260px;
     pointer-events: auto;
-} */
+} 
 
